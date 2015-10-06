@@ -1,0 +1,15 @@
+- The team should always meet in person, no virtual meetings.
+- The team should meet for 1-2 hours the day the project is assigned and 1-2 days before it is due.
+- The meetings will be very informal with a pseudo-democratic approach to designating tasks which will be based upon skill and previous experience
+- The group will use Slack for communications between the two main meetings
+- Progress will be tracked via commits to each branch on the project git repository and github issue trackers
+- Responsibilites will be designated at the first meeting via skill and previous experience
+- New features in new branches, merge into master via pull requests, responsibilities can be changed via communication using slack
+- Testing should be heavily enforced by grading but no metric is necessary
+- The team will be forced to pick up the slack for non-responsive or helpful members, and this should be documented
+- Bugs should be tracked using github issue tracker
+- The customer should submit a full specification at the beginning of the project, this is the specification which must be built to. Any ambiguities must be addressed by the developers before building.
+- Standard nodejs coding standards from an established entity such as Google
+- Should changes to the spec occur and there is no way around it the team must hold a meeting with 2 days to address the changes
+- Adherence will be determined by the ability of the final project to complete the desired task as well as the fault tolerance and test-coverage of the code
+
