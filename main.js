@@ -3,8 +3,8 @@ var Slack = require('slack-client');
 var creds = require('./credentials/testbot.js');
 
 var slackToken = creds.api_token;
-var autoReconnect = true; // Automatically reconnect after an error response from Slack.
-var autoMark = true; // Automatically mark each message as read after it is processed.
+var autoReconnect = true; // automatically reconnect on error 
+var autoMark = true; // automatically mark messages as read
 
 var slack = new Slack(slackToken, autoReconnect, autoMark)
 
