@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "node main.js",
-    "test": "mocha"
+    "test": "mocha",
+    "clean": "rm -rf node_modules logs *.log"
   },
   "bin": {
     "main": "main.js"
