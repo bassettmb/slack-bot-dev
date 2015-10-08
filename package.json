@@ -1,0 +1,25 @@
+{
+  "name": "slack-bot-dev",
+  "version": "0.0.1",
+  "description": "slack chat bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bassettmb/slack-bot-dev.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bassettmb/slack-bot-dev/issues"
+  },
+  "homepage": "https://github.com/bassettmb/slack-bot-dev#readme",
+  "dependencies": {
+    "slack-client": "^1.4.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
+}
