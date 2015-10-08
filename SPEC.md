@@ -6,9 +6,9 @@ Include a README explaining how the project should be used, how to set it up and
 
 ## User Stories
 
-- I want to be able to do simple arithmetic ("Hey mySlackbot-Calculate [((1^2)/1)+2-3*4]") should output ("Result-[-9]")
-- I want the bot to be able to tell a simple, SFW joke from a list of developer-created jokes ("Hey mySlackbot-Tell me a joke!") should output ("Result-[joke]")
-- I want the bot to chastise people for using innappropriate language ("Bla bla f**k bla") should output ("That is not appropriate language for a workplace!")
+- I want to be able to do simple arithmetic ("Hey mySlackbot-Calculate [((1^2)/1)+2-3*4]") should output ("-9")
+- I want the bot to be able to tell a simple, SFW joke from a list of developer-created jokes ("Hey mySlackbot-Tell me a joke!") should output ("joke")
+- I want the bot to chastise people for using innappropriate language ("Bla bla curseword bla") should output ("That is not appropriate language for a workplace! One should say 'Bla bla ********* bla' instead!")
 
 ## Grading
 - ### Functionality
