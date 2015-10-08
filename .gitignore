@@ -9,6 +9,7 @@ build/Debug
 node_modules
 
 # logs
+logs
 *.log
 
 # credentials
