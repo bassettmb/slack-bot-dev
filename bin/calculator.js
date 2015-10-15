@@ -1,6 +1,8 @@
 var match = function(message)
 {
-	return (message.text.replace(/\s+/g, '').toLowerCase().startsWith("calculate") == 0 );
+	if(!message.text) return false;
+	text = message.text.replace(/\s+/g, '').toLowerCase();
+	return (text.indexOf("calculate") === 0 );
 }
 
 var execute = function(message)
@@ -10,7 +12,7 @@ var execute = function(message)
 
 	response = parse(formula);
 
-	if(response.ending === formular.length) return response.result;
+	if(response.ending === formula.length && response.result) return cutPrecision(response.result);
 	return response.error || "Oops... there are extra bracket / parentheses!";
 }
 
@@ -137,7 +139,7 @@ function parse(formula)
 
 function whoIsFirst(operators)
 {
-	var priority = ['*/','+-','^'];
+	var priority = ['^','*/','+-'];
 	for(var p = 0; p<priority.length;++p)
 		for(var i = 0; i<operators.length; ++i)
 			if(priority[p].indexOf(operators[i]) != -1) return i;
@@ -173,11 +175,19 @@ function calculate(numbers, operators)
 	return numbers[0];
 }
 
+Number.prototype.countDecimals = function () {
+    if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
+    return this.toString().split(".")[1].length || 0; 
+}
+
+function cutPrecision(num)
+{
+	if(num.countDecimals() > 6) return parseFloat(num.toFixed(6));
+	return num;
+}
+
 module.exports =
 {
 	match: match,
 	execute: execute
 }
-
-var res = parse("1+2*5/12.31+(1)");
-console.log(JSON.stringify(res));
