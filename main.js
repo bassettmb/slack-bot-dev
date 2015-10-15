@@ -6,14 +6,43 @@ var slackToken = creds.api_token;
 var autoReconnect = true; // automatically reconnect on error 
 var autoMark = true; // automatically mark messages as read
 
+// Add Handlers here
+var messageHandler = require('./bin/messageHandler.js');
+
 var slack = new Slack(slackToken, autoReconnect, autoMark)
 
 slack.on('open', function(){
-    console.log("Connected to %s %s", slack.team.name, slack.self.name);
+    console.log("Connected to %s as %s", slack.team.name, slack.self.name);
 });
 
 slack.on('message', function(message){
-    console.log("%s: %s", new Date().toISOString(), message);
+
+    channel = slack.getChannelGroupOrDMByID(message.channel)
+    user = slack.getUserByID(message.user)
+
+    channelName = (channel && channel.is_channel)? '#'+channel.name : "UNKNOWN_CHANNEL";
+	userName = (user && user.name)? '$'+user.name : "UNKNOWN_USER";
+
+	console.log('> Received message from %s at %s',userName, channelName);
+
+	if(!channel)
+	{
+		console.error("Channel is undefined.");
+	}
+	else if(!message.text)
+	{
+		console.error("Text is undefined.");
+	}
+	else{
+		msg = {
+			userName: userName,
+			channelName: channelName,
+			content: message.text
+		}
+		response = messageHandler.process(msg);
+		channel.send(response);
+		console.log("< %s responded with %s",slack.self.name, response);
+	}
 });
 
 slack.on('error', function(err){
