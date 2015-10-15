@@ -17,10 +17,10 @@ slack.on('open', function(){
 
 slack.on('message', function(message){
 
-    channel = slack.getChannelGroupOrDMByID(message.channel)
-    user = slack.getUserByID(message.user)
+	channel = slack.getChannelGroupOrDMByID(message.channel)
+	user = slack.getUserByID(message.user)
 
-    channelName = (channel && channel.is_channel)? '#'+channel.name : "UNKNOWN_CHANNEL";
+	channelName = (channel && channel.is_channel)? '#'+channel.name : "UNKNOWN_CHANNEL";
 	userName = (user && user.name)? '$'+user.name : "UNKNOWN_USER";
 
 	console.log('> Received message from %s at %s',userName, channelName);
