@@ -26,6 +26,8 @@
     "slack-client": "^1.4.1"
   },
   "devDependencies": {
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "chai": "^3.3.0",
+    "should" "^7.1.0"
   }
 }
