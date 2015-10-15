@@ -37,7 +37,7 @@ slack.on('message', function(message){
 		msg = {
 			userName: userName,
 			channelName: channelName,
-			content: message.text
+			text: message.text
 		}
 		response = messageHandler.process(msg);
 		channel.send(response);

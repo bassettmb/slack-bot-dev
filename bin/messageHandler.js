@@ -3,18 +3,15 @@
 // Features
 var calculator = require('./calculator.js');
 
-var executor = [calculator];
-
-function validate (message)
-{
-
-}
+var features = [calculator];
 
 function process (message)
 {
-	//var direct = validate(message);
-	//var response = executor[direct].execute(message);
-	return "Received";
+	for(var i in features)
+	{
+		if(features[i].match(message)) return features[i].execute(message);
+	}
+	return "Pardon? I don't understand what you just said.";
 }
 
 module.exports =
