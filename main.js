@@ -17,32 +17,32 @@ slack.on('open', function(){
 
 slack.on('message', function(message){
 
-	channel = slack.getChannelGroupOrDMByID(message.channel)
-	user = slack.getUserByID(message.user)
+    channel = slack.getChannelGroupOrDMByID(message.channel)
+    user = slack.getUserByID(message.user)
 
-	channelName = (channel && channel.is_channel)? '#'+channel.name : "UNKNOWN_CHANNEL";
-	userName = (user && user.name)? '$'+user.name : "UNKNOWN_USER";
+    channelName = (channel && channel.is_channel)? '#'+channel.name : "UNKNOWN_CHANNEL";
+    userName = (user && user.name)? '$'+user.name : "UNKNOWN_USER";
 
-	console.log('> Received message from %s at %s',userName, channelName);
+    console.log('> Received message from %s at %s',userName, channelName);
 
-	if(!channel)
-	{
-		console.error("Channel is undefined.");
-	}
-	else if(!message.text)
-	{
-		console.error("Text is undefined.");
-	}
-	else{
-		msg = {
-			userName: userName,
-			channelName: channelName,
-			text: message.text
-		}
-		response = messageHandler.process(msg);
-		channel.send(response);
-		console.log("< %s responded with %s",slack.self.name, response);
-	}
+    if(!channel)
+    {
+        console.error("Channel is undefined.");
+    }
+    else if(!message.text)
+    {
+        console.error("Text is undefined.");
+    }
+    else{
+        msg = {
+            userName: userName,
+            channelName: channelName,
+            text: message.text
+        }
+        response = messageHandler.process(msg);
+        channel.send(response);
+        console.log("< %s responded with %s",slack.self.name, response);
+    }
 });
 
 slack.on('error', function(err){
