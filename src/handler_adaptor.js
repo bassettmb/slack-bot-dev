@@ -1,7 +1,6 @@
-module.exports = (function() {
-  var def = require('../lib/def');
-  var Handler = require('./handler');
-  var HandlerAdaptor = def.type(Handler, function(handler) {
+define(['lib/def', 'handler'], function(Def, Handler) {
+  var HandlerAdaptor = Def.type(Handler, function(handler) {
+    Handler.call(this);
     this.def_prop('handler', handler);
   });
   HandlerAdaptor.def_method(function on_message(msg) {
@@ -11,5 +10,4 @@ module.exports = (function() {
     return null;
   });
   return HandlerAdaptor;
-})();
-
+});

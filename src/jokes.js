@@ -1,9 +1,6 @@
-module.exports = (function() {
+define(['lib/def', 'handler'], function(Def, Handler) {
 
-  var def = require('../lib/def');
-  var Handler = require('./handler');
-
-  var Jokes = def.type(Handler, function() {
+  var Jokes = Def.type(Handler, function() {
     Handler.call(this);
   });
 
@@ -18,4 +15,4 @@ module.exports = (function() {
 
   return Jokes;
 
-}());
+});

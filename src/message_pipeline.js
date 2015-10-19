@@ -1,7 +1,5 @@
-module.exports = (function() {
-  var MessageTap = require('./message_tap');
-  var util = require('../lib/util');
-  var undef = util.undef;
+define(['lib/util', 'message_tap'], function(Util, MessageTap) {
+  var undef = Util.undef;
   return function(handlers) {
     var tap = new MessageTap();
     if (!undef(handlers))
@@ -9,5 +7,4 @@ module.exports = (function() {
         tap.push_back(elem);
     return tap;
   };
-})();
-
+});

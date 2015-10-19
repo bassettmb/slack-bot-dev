@@ -5,12 +5,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "node main.js",
+    "start": "node start.js",
     "test": "mocha",
     "clean": "rm -rf node_modules logs *.log"
-  },
-  "bin": {
-    "main": "main.js"
   },
   "repository": {
     "type": "git",

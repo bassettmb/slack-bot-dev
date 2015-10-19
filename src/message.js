@@ -1,11 +1,8 @@
-module.exports = (function() {
+define(['lib/def', 'lib/util'], function(Def, Util) {
 
-  var def = require('../lib/def');
-  var util = require('../lib/util');
+  var guard_undef = Util.guard_undef;
 
-  var guard_undef = util.guard_undef;
-
-  var Message = def.type(function(client, raw_msg) {
+  var Message = Def.type(function(client, raw_msg) {
     guard_undef(raw_msg);
     this.def_prop('raw', raw_msg);
     this.def_prop('channel', client.getChannelGroupOrDMByID(raw_msg.channel));
@@ -27,4 +24,4 @@ module.exports = (function() {
 
   return Message;
 
-})();
+});
