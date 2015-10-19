@@ -1,7 +1,3 @@
-// Add logic here to analyze messgaes and direct them to corresponding handlers
-
-// Features
-
 module.exports = (function() {
 
   var def = require('../lib/def');
