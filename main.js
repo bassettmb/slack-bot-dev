@@ -1,11 +1,11 @@
 // FIXME: Find a portable way to add our project files to NODE_PATH
 
-var Message = require('./bin/message');
-var HandlerAdaptor = require('./bin/handler_adaptor');
-var Pipeline = require('./bin/message_pipeline');
+var Message = require('./src/message');
+var HandlerAdaptor = require('./src/handler_adaptor');
+var Pipeline = require('./src/message_pipeline');
 
-var Jokes = require('./bin/jokes');
-var calculator = require('./bin/calculator');
+var Jokes = require('./src/jokes');
+var calculator = require('./src/calculator');
 
 var Slack = require('slack-client');
 var creds = require('./credentials/testbot');
