@@ -128,6 +128,7 @@ module.exports = (function() {
   return {
     'undef': undef,
     'guard_undef': guard_undef,
+    'is_arraylike': is_arraylike,
     'id': id,
     'nop': nop,
     'append': append,
