@@ -15,6 +15,8 @@ module.exports = (function() {
     if (!opts)
       opts = {};
     opts['value'] = value;
+    if (undef(opts.enumerable))
+      opts.enumerable = true;
     Object.defineProperty(this, name, opts);
     return this;
   }
@@ -23,8 +25,8 @@ module.exports = (function() {
     return def_prop.call(this, name, value, { 'writable': true });
   }
 
-  function def_enum_prop(name, value) {
-    return def_prop.call(this, name, value, { 'enumerable': true });
+  function def_hidden_prop(name, value) {
+    return def_prop.call(this, name, value, { 'enumerable': false });
   }
 
   function def_method(obj, name, value) {
