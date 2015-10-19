@@ -2,9 +2,10 @@
 
 var Message = require('./bin/message');
 var HandlerAdaptor = require('./bin/handler_adaptor');
-var calculator = require('./bin/calculator');
 var Pipeline = require('./bin/message_pipeline');
+
 var Jokes = require('./bin/jokes');
+var calculator = require('./bin/calculator');
 
 var Slack = require('slack-client');
 var creds = require('./credentials/testbot');
@@ -19,12 +20,12 @@ function init_slack() {
 function config_evs(slack) {
   var pipeline = new Pipeline([new HandlerAdaptor(calculator), new Jokes]);
 
-  slack.on('open', function(){
+  slack.on('open', function() {
       console.log("Connected to %s as %s", slack.team.name, slack.self.name);
   });
 
   slack.on('message', function(message) {
-    pipeline.on_message(new Message(message));
+    pipeline.on_message(new Message(slack, message));
   });
 
   slack.on('error', function(err){
