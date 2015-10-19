@@ -1,7 +1,7 @@
 define(['lib/def', 'handler'], function(Def, Handler) {
 
   var HandlerAdaptor = Def.type(Handler, function(handler) {
-    Handler.call(this);
+    this.constructor.__super__.call(this);
     this.def_prop('handler', handler);
   });
 
