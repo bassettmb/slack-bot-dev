@@ -1,52 +1,39 @@
-var Slack = require('slack-client');
 // FIXME: Find a portable way to add our project files to NODE_PATH
-var creds = require('./credentials/testbot.js');
 
-var slackToken = creds.api_token;
-var autoReconnect = true; // automatically reconnect on error 
-var autoMark = true; // automatically mark messages as read
+var Message = require('./bin/message');
+var HandlerAdaptor = require('./bin/handler_adaptor');
+var calculator = require('./bin/calculator');
+var Pipeline = require('./bin/message_pipeline');
+var Jokes = require('./bin/jokes');
 
-// Add Handlers here
-var messageHandler = require('./bin/messageHandler.js');
+var Slack = require('slack-client');
+var creds = require('./credentials/testbot');
 
-var slack = new Slack(slackToken, autoReconnect, autoMark)
+function init_slack() {
+  var slackToken = creds.api_token;
+  var autoReconnect = true; // automatically reconnect on error 
+  var autoMark = true; // automatically mark messages as read
+  return new Slack(slackToken, autoReconnect, autoMark);
+}
 
-slack.on('open', function(){
-    console.log("Connected to %s as %s", slack.team.name, slack.self.name);
-});
+function config_evs(slack) {
+  var pipeline = new Pipeline([new HandlerAdaptor(calculator), new Jokes]);
 
-slack.on('message', function(message){
+  slack.on('open', function(){
+      console.log("Connected to %s as %s", slack.team.name, slack.self.name);
+  });
 
-    channel = slack.getChannelGroupOrDMByID(message.channel)
-    user = slack.getUserByID(message.user)
+  slack.on('message', function(message) {
+    pipeline.on_message(new Message(message));
+  });
 
-    channelName = (channel && channel.is_channel)? '#'+channel.name : "UNKNOWN_CHANNEL";
-    userName = (user && user.name)? '$'+user.name : "UNKNOWN_USER";
+  slack.on('error', function(err){
+      console.error("%s: error: %s", new Date().toISOString(), err);
+  });
 
-    console.log('> Received message from %s at %s',userName, channelName);
+  return slack;
+}
 
-    if(!channel)
-    {
-        console.error("Channel is undefined.");
-    }
-    else if(!message.text)
-    {
-        console.error("Text is undefined.");
-    }
-    else{
-        msg = {
-            userName: userName,
-            channelName: channelName,
-            text: message.text
-        }
-        response = messageHandler.process(msg);
-        channel.send(response);
-        console.log("< %s responded with %s",slack.self.name, response);
-    }
-});
-
-slack.on('error', function(err){
-    console.error("%s: error: %s", new Date().toISOString(), err);
-});
-
-slack.login();
+var conn = init_slack();
+config_evs(conn);
+conn.login();
