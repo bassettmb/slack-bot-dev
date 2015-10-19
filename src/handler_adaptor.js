@@ -1,5 +1,5 @@
 module.exports = (function() {
-  var def = require('./lib/def');
+  var def = require('../lib/def');
   var Handler = require('./handler');
   var HandlerAdaptor = def.type(Handler, function(handler) {
     this.def_prop('handler', handler);
