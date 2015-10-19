@@ -20,28 +20,27 @@ module.exports = (function() {
 
   return (function() {
 
-    var type = def.type(function() {
-      var def_prop = def.prop.bind(this);
-      def_prop('front', new Map());
-      def_prop('back', new Map());
-      def.mut_prop.call(this, 'next_id', 0);
+    var MessageTap = def.type(function() {
+      this.def_prop('front', new Map());
+      this.def_prop('back', new Map());
+      this.def_mut_prop('next_id', 0);
     });
 
-    def_method(type, function push_front(listener) {
+    MessageTap.def_method(function push_front(listener) {
       var id = this.next_id;
       this.front.set(id, listener);
       this.next_id += 1;
       return id;
     });
 
-    def_method(type, function push_back(listener) {
+    MessageTap.def_method(function push_back(listener) {
       var id = this.next_id;
       this.back.set(id, listener);
       this.next_id += 1;
       return id;
     });
 
-    def_method(type, function remove(listener_id) {
+    MessageTap.def_method(function remove(listener_id) {
       if (this.front.has(listener_id)) {
         this.front.remove(listener_id);
         return true;
@@ -55,7 +54,7 @@ module.exports = (function() {
       return false;
     });
 
-    def_method(type, function on_message(msg) {
+    MessageTap.def_method(function on_message(msg) {
       validate_msg(msg);
       function with_queue(queue) {
         for (var entry of queue.entries()) {
@@ -70,7 +69,7 @@ module.exports = (function() {
       return msg;
     });
 
-    return type;
+    return MessageTap;
 
   })();
 })();
