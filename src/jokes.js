@@ -8,9 +8,8 @@ define(['lib/def', 'handler'], function(Def, Handler) {
     return /[tT]ell a joke/.test(msg);
   });
 
-  Jokes.def_method(function on_message(msg) {
-    if (this.match(msg.text))
-      msg.reply('No.');
+  Jokes.def_method(function on_message(msg, cont) {
+    return this.match(msg.text) ? msg.reply('No.', cont) : cont();
   });
 
   return Jokes;

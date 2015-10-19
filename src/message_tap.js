@@ -2,6 +2,8 @@ define(['lib/def', 'lib/util', 'handler'], function(Def, Util, Handler) {
 
   var undef = Util.undef;
   var guard_undef = Util.guard_undef;
+  var id = Util.id;
+  var nop = Util.nop;
 
   function validate_msg(msg) {
     guard_undef(msg.channel);
@@ -44,19 +46,45 @@ define(['lib/def', 'lib/util', 'handler'], function(Def, Util, Handler) {
     return false;
   });
 
-  MessageTap.def_method(function on_message(msg) {
-    validate_msg(msg);
-    function with_queue(queue) {
-      for (var entry of queue.entries()) {
-        var handler = entry[1];
-        msg = handler.on_message(msg);
-        if (!msg)
-          break;
-      }
-      return msg;
+  MessageTap.def_method(function on_message(msg, cont) {
+
+    var self = this;
+
+    if (undef(cont))
+      cont = nop;
+
+    try {
+      validate_msg(msg);
+    } catch (exn) {
+      return cont(exn);
     }
-    with_queue(this.front) && with_queue(this.back);
-    return msg;
+
+    function for_entry(msg, entry, cont) {
+      var handler = entry[1];
+      return handler.on_message(msg, cont);
+    }
+
+    function for_each(queue, cont, done) {
+      var it = queue.entries();
+      function iterate(msg) {
+        if (!msg)
+          return done();
+        var entry = it.next();
+        if (entry.done)
+          return cont(msg, done);
+        return for_entry(msg, entry.value, iterate);
+      }
+      return iterate;
+    }
+
+    function for_tap() {
+      return for_each(self.front, function(msg, cont) {
+        return for_each(self.back, cont, cont)(msg);
+      }, id)(msg);
+    }
+
+    return for_tap();
+
   });
 
   return MessageTap;

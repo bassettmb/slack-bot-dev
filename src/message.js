@@ -10,16 +10,21 @@ define(['lib/def', 'lib/util'], function(Def, Util) {
     this.def_prop('text', raw_msg.text);
   });
 
-  Message.def_method(function send_to(name, text) {
-    return this.respond('@' + name + ': ' + text);
+  Message.def_method(function send_to(name, text, cont) {
+    return this.respond('@' + name + ': ' + text, cont);
   });
 
-  Message.def_method(function reply(text) {
-    return this.send_to(this.user.name, text);
+  Message.def_method(function reply(text, cont) {
+    return this.send_to(this.user.name, text, cont);
   });
 
-  Message.def_method(function respond(text) {
-    this.channel.send(text);
+  Message.def_method(function respond(text, cont) {
+    try {
+      this.channel.send(text);
+      return cont();
+    } catch (exn) {
+      return cont(exn);
+    }
   });
 
   return Message;
