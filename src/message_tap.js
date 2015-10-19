@@ -4,8 +4,8 @@
 
 module.exports = (function() {
 
-  var util = require('./util');
-  var def = require('./def');
+  var def = require('../lib/def');
+  var util = require('../lib/util');
   var Handler = require('./handler');
 
   var nop = util.nop;

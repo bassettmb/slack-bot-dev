@@ -1,7 +1,7 @@
 module.exports = (function() {
 
-  var def = require('./def');
-  var util = require('./util');
+  var def = require('../lib/def');
+  var util = require('../lib/util');
 
   var guard_undef = util.guard_undef;
 

@@ -1,6 +1,6 @@
 module.exports = (function() {
   var MessageTap = require('./message_tap');
-  var util = require('./util');
+  var util = require('../lib/util');
   var undef = util.undef;
   return function(handlers) {
     var tap = new MessageTap();

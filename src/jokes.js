@@ -1,6 +1,6 @@
 module.exports = (function() {
 
-  var def = require('./def');
+  var def = require('../lib/def');
   var Handler = require('./handler');
 
   var Jokes = def.type(Handler, function() {
