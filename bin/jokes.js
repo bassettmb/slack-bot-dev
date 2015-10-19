@@ -1,7 +1,7 @@
 module.exports = (function() {
 
   var def = require('./def');
-  var Handler = require('./Handler');
+  var Handler = require('./handler');
 
   var Jokes = def.type();
 
