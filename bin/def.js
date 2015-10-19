@@ -30,7 +30,8 @@ module.exports = (function() {
   }
 
   function def_method(obj, name, value) {
-    return def_static_method(obj.prototype, name, value);
+    def_static_method(obj.prototype, name, value);
+    return obj;
   }
 
   function def_static_method(obj, name, value) {
@@ -104,7 +105,6 @@ module.exports = (function() {
     });
 
     return constructor;
-
   }
 
   function def_variant() {
