@@ -10,6 +10,7 @@ define(['lib/def', 'lib/util', 'handler'], function(Def, Util, Handler) {
   }
 
   var MessageTap = Def.type(function() {
+    /* NB: map is ordered based on when an item was inserted. */
     this.def_prop('front', new Map());
     this.def_prop('back', new Map());
     this.def_mut_prop('next_id', 0);
