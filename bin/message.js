@@ -5,11 +5,11 @@ module.exports = (function() {
 
   var guard_undef = util.guard_undef;
 
-  var Message = def.type(function(raw_msg) {
+  var Message = def.type(function(client, raw_msg) {
     guard_undef(raw_msg);
     this.def_prop('raw', raw_msg);
-    this.def_prop('channel', slack.getChannelGroupOrDMByID(raw_msg.channel));
-    this.def_prop('user', slack.getUserByID(raw_msg.user));
+    this.def_prop('channel', client.getChannelGroupOrDMByID(raw_msg.channel));
+    this.def_prop('user', client.getUserByID(raw_msg.user));
     this.def_prop('text', raw_msg.text);
   });
 
@@ -18,7 +18,7 @@ module.exports = (function() {
   });
 
   Message.def_method(function reply(text) {
-    return this.send_to(this.raw_msg.user.name, text);
+    return this.send_to(this.user.name, text);
   });
 
   Message.def_method(function respond(text) {
