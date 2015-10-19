@@ -21,10 +21,10 @@ define(['lib/def', 'lib/util'], function(Def, Util) {
   Message.def_method(function respond(text, cont) {
     try {
       this.channel.send(text);
-      return cont();
     } catch (exn) {
       return cont(exn);
     }
+    return cont();
   });
 
   return Message;
