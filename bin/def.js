@@ -39,27 +39,28 @@ module.exports = (function() {
 
   function def_type(prototype, constructor) {
 
-    var ptype = typeof prototype;
-    var ctype = typeof constructor;
-
     if (undef(constructor)) {
       if (undef(prototype)) {
         constructor = function() {}
         prototype = null;
-      } else if (ptype === 'function') {
-        constructor = prototype;
-        prototype = null;
-      } else if (ptype === 'object') {
-        constructor = (function() {
-          prototype.apply(this, arguments);
-        });
       } else {
-        throw new TypeError('constructor must be a function');
+        var ptype = typeof prototype;
+        if (ptype === 'function') {
+          constructor = prototype;
+          prototype = null;
+        } else if (ptype === 'object') {
+          constructor = (function() {
+            prototype.apply(this, arguments);
+          });
+        } else {
+          throw new TypeError('constructor must be a function');
+        }
       }
     } else {
       var ctype = typeof constructor;
       if (ctype !== 'function')
         throw new TypeError('constructor must be a function');
+      var ptype = typeof prototype;
       if (ptype !== 'object') {
         if (ptype !== 'function' || undef(prototype.prototype))
           throw new TypeError('prototype must be an object or a constructor');
