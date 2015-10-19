@@ -20,11 +20,13 @@
   },
   "homepage": "https://github.com/bassettmb/slack-bot-dev#readme",
   "dependencies": {
+    "requirejs": "^2.1.20",
     "slack-client": "^1.4.1"
   },
   "devDependencies": {
     "mocha": "^2.3.3",
     "chai": "^3.3.0",
-    "should": "^7.1.0"
+    "should": "^7.1.0",
+    "sinon": "^1.17.1"
   }
 }
