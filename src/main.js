@@ -6,6 +6,7 @@ define(function() {
   var HandlerAdaptor = require('handler_adaptor');
   var Pipeline = require('message_pipeline');
 
+  var Swears = require('swears');
   var Jokes = require('jokes');
   var JokeSource = require('joke_source');
   var calculator = require('calculator');
@@ -13,6 +14,7 @@ define(function() {
   var Slack = require('slack-client');
   var creds = require('credentials/testbot');
 
+  var swears_file = 'share/swears.txt';
   var jokes_file = 'share/jokes.txt';
 
   function init_pipeline(cont) {
@@ -21,6 +23,7 @@ define(function() {
       if (err)
         console.error('failed to initialize joke source');
       var pipeline = new Pipeline();
+      pipeline.push_back(new Swears(swears_file));
       pipeline.push_back(new HandlerAdaptor(calculator));
       pipeline.push_back(new Jokes(source));
       return cont(pipeline);
