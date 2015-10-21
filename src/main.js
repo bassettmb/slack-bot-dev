@@ -22,11 +22,17 @@ define(function() {
       /* Add handlers here. */
       if (err)
         console.error('failed to initialize joke source');
-      var pipeline = new Pipeline();
-      pipeline.push_back(new Swears(swears_file));
-      pipeline.push_back(new HandlerAdaptor(calculator));
-      pipeline.push_back(new Jokes(source));
-      return cont(pipeline);
+
+      return Swears.create_dict(swears_file, function (err, dict) {
+        if (err)
+          console.error('failed to initialize swears dictionary');
+
+        var pipeline = new Pipeline();
+        pipeline.push_back(new Swears(dict));
+        pipeline.push_back(new HandlerAdaptor(calculator));
+        pipeline.push_back(new Jokes(source));
+        return cont(pipeline);
+      });
     }
     return JokeSource.from_file(jokes_file, with_source);
   }

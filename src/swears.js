@@ -3,18 +3,11 @@ define(['lib/def', 'lib/util', 'handler', 'fs'], function(Def, Util, Handler, FS
     var REPLY_PREFIX = "That is not appropriate language for a workplace! One should say '";
     var REPLY_POSTFIX = "' instead!";
 
-    var createDict = function (filename) {
-        var swearsArray = Util.lines(FS.readFileSync(filename).toString().toLowerCase());
-        var swearsMap = {};
-        for (var i = 0; i < swearsArray.length; i++) {
-            swearsMap[swearsArray[i]] = true;
-        }
-        return swearsMap;
-    };
-
-    var Swears = Def.type(Handler, function(filename) {
+    var Swears = Def.type(Handler, function(dict) {
+        if (!dict)
+            dict = {};
         this.constructor.__super__.call(this);
-        this.def_prop('dict', createDict(filename));
+        this.def_prop('dict', dict);
     });
 
     Swears.def_method(function on_message(msg, cont) {
@@ -37,6 +30,17 @@ define(['lib/def', 'lib/util', 'handler', 'fs'], function(Def, Util, Handler, FS
         } else {
             cont(msg)
         }
+    });
+
+    Swears.def_static_method(function create_dict(filepath, cont) {
+        return FS.readFile(filepath, function(err, contents) {
+            var swearsArray = Util.lines(contents.toString().toLowerCase());
+            var swearsMap = {};
+            for (var i = 0; i < swearsArray.length; i++) {
+                swearsMap[swearsArray[i]] = true;
+            }
+            return cont(err, swearsMap);
+        });
     });
 
     return Swears;
