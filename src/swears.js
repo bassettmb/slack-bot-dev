@@ -1,41 +1,44 @@
-define(['lib/util', 'fs'], function(Util, FS) {
+define(['lib/def', 'lib/util', 'handler', 'fs'], function(Def, Util, Handler, FS) {
 
-    var swearsFile = 'share/swears.txt';
+    var REPLY_PREFIX = "That is not appropriate language for a workplace! One should say '";
+    var REPLY_POSTFIX = "' instead!";
 
-    var swearsArray = Util.lines(FS.readFileSync(swearsFile).toString().toLowerCase());
+    var createDict = function (filename) {
+        var swearsArray = Util.lines(FS.readFileSync(filename).toString().toLowerCase());
+        var swearsMap = {};
+        for (var i = 0; i < swearsArray.length; i++) {
+            swearsMap[swearsArray[i]] = true;
+        }
+        return swearsMap;
+    };
 
-    var swearsMap = {};
-    for (var i = 0; i < swearsArray.length; i++) {
-        swearsMap[swearsArray[i]] = true;
-    }
+    var Swears = Def.type(Handler, function(filename) {
+        this.constructor.__super__.call(this);
+        this.def_prop('dict', createDict(filename));
+    });
 
-    var match = function (msg) {
-        var text = msg.text.toLowerCase();
-        var words = text.split(/\s+/g);
+    Swears.def_method(function on_message(msg, cont) {
+        var censoredText = msg.text;
+        var words = msg.text.toLowerCase().split(/\s+/g);
+
+        var matched = false;
         for (var i = 0; i < words.length; i++) {
-            if (swearsMap[words[i]]) {
-                return true;
+            var word = words[i];
+            if (this.dict[word]) {
+                matched = true;
+                var censor = word.replace(/./g, '*');
+                censoredText = censoredText.replace(new RegExp(word, 'i'), censor);
             }
         }
-        return false;
-    };
 
-    var censor = function (msg) {
-        var result = msg.text;
-        var text = msg.text.toLowerCase();
-        var words = text.split(/\s+/g);
-        for (var i = 0; i < words.length; i++) {
-            if (swearsMap[words[i]]) {
-                var blocked = words[i].replace(/./g, '*');
-                result.replace(new RegExp(words[i], 'i'), blocked);
-            }
+        if (match) {
+            censoredText = REPLY_PREFIX + censoredText + REPLY_POSTFIX;
+            msg.reply(censoredText, cont);
+        } else {
+            cont(msg)
         }
-        return result;
-    };
+    });
 
-    return {
-        match: match,
-        execute: censor
-    };
+    return Swears;
 
 });
