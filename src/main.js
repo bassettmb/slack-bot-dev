@@ -20,11 +20,17 @@ define(function() {
     function with_source(err, source) {
       if (err)
         console.error('failed to initialize joke source');
-      var pipeline = new Pipeline();
-      pipeline.push_back(new Swears(swears_file));
-      pipeline.push_back(new HandlerAdaptor(calculator));
-      pipeline.push_back(new Jokes(source));
-      return cont(pipeline);
+
+      return Swears.create_dict(swears_file, function (err, dict) {
+        if (err)
+          console.error('failed to initialize swears dictionary');
+
+        var pipeline = new Pipeline();
+        pipeline.push_back(new Swears(dict));
+        pipeline.push_back(new HandlerAdaptor(calculator));
+        pipeline.push_back(new Jokes(source));
+        return cont(pipeline);
+      });
     }
     return JokeSource.from_file(Config.Jokes.filepath, with_source);
   }
