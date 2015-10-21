@@ -24,7 +24,7 @@ define(['lib/def', 'lib/util', 'handler', 'fs'], function(Def, Util, Handler, FS
             }
         }
 
-        if (match) {
+        if (matched) {
             censoredText = REPLY_PREFIX + censoredText + REPLY_POSTFIX;
             msg.reply(censoredText, cont);
         } else {
