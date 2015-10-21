@@ -1,13 +1,8 @@
 define(['lib/def', 'lib/util', 'handler'], function(Def, Util, Handler) {
 
-  var undef = Util.undef;
-  var guard_undef = Util.guard_undef;
-  var id = Util.id;
-  var nop = Util.nop;
-
   function validate_msg(msg) {
-    guard_undef(msg.channel);
-    guard_undef(msg.user);
+    Util.guard_undef(msg.channel);
+    Util.guard_undef(msg.user);
     return msg;
   }
 
@@ -50,8 +45,8 @@ define(['lib/def', 'lib/util', 'handler'], function(Def, Util, Handler) {
 
     var self = this;
 
-    if (undef(cont))
-      cont = nop;
+    if (Util.undef(cont))
+      cont = Util.nop;
 
     try {
       validate_msg(msg);
@@ -80,7 +75,7 @@ define(['lib/def', 'lib/util', 'handler'], function(Def, Util, Handler) {
     function for_tap() {
       return for_each(self.front, function(msg, cont) {
         return for_each(self.back, cont, cont)(msg);
-      }, id)(msg);
+      }, Util.id)(msg);
     }
 
     return for_tap();

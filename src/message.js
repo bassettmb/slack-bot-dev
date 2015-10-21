@@ -1,9 +1,7 @@
 define(['lib/def', 'lib/util'], function(Def, Util) {
 
-  var guard_undef = Util.guard_undef;
-
   var Message = Def.type(function(client, raw_msg) {
-    guard_undef(raw_msg);
+    Util.guard_undef(raw_msg);
     this.def_prop('raw', raw_msg);
     this.def_prop('channel', client.getChannelGroupOrDMByID(raw_msg.channel));
     this.def_prop('user', client.getUserByID(raw_msg.user));
