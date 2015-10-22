@@ -29,6 +29,7 @@ describe('Message',function(){
     raw = { 'channel': channel, 'user': user, 'text': text };
     Client.getChannelGroupOrDMByID = sinon.stub().returns(channel);
     Client.getUserByID = sinon.stub().returns(user);
+    Client.self = {name: 'botname'};
     inst = new Message(Client, raw);
     done();
   });
