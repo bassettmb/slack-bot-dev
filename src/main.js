@@ -45,7 +45,13 @@ define(function() {
     });
 
     conn.on('error', function(err) {
-      console.error("%s: error: %s", new Date().toISOString(), err);
+      console.error(JSON.stringify({
+        'timestamp': Date.now().toISOString(),
+        'error': {
+          'code': err.code,
+          'message': err.msg,
+        }
+      }));
     });
 
     return cont(conn);
