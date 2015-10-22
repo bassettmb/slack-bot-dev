@@ -10,6 +10,6 @@ Chat bot for slack built on the real-time messaging API.
 
 ### Running
 
-* Add credentials for testbot to credentials/testbot
+* Add credentials for testbot to config.js
 * `npm start`
 

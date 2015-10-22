@@ -11,13 +11,11 @@ define(function() {
   var calculator = require('calculator');
 
   var Slack = require('slack-client');
-  var creds = require('credentials/testbot');
-
-  var jokes_file = 'share/jokes.txt';
+  var Config = require('config');
+  var Creds = require('credentials/testbot');
 
   function init_pipeline(cont) {
     function with_source(err, source) {
-      /* Add handlers here. */
       if (err)
         console.error('failed to initialize joke source');
       var pipeline = new Pipeline();
@@ -25,12 +23,12 @@ define(function() {
       pipeline.push_back(new Jokes(source));
       return cont(pipeline);
     }
-    return JokeSource.from_file(jokes_file, with_source);
+    return JokeSource.from_file(Config.Jokes.filepath, with_source);
   }
 
   function init_slack(pipeline, cont) {
 
-    var slackToken = creds.api_token;
+    var slackToken = Creds.api_token;
     var autoReconnect = true; // automatically reconnect on error 
     var autoMark = true; // automatically mark messages as read
 

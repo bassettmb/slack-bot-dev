@@ -5,8 +5,10 @@ requirejs.config({
   'nodeRequire': require,
   'baseUrl': './src',
   'paths': {
+    'config': '../config',
+    'credentials': '../credentials',
     'lib': '../lib',
-    'credentials': '../credentials'
+    'test': '../test',
   }
 });
 

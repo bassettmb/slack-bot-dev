@@ -21,6 +21,7 @@
   "homepage": "https://github.com/bassettmb/slack-bot-dev#readme",
   "dependencies": {
     "requirejs": "^2.1.20",
+    "requirejs-text": "^2.0.12",
     "slack-client": "^1.4.1"
   },
   "devDependencies": {
