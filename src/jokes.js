@@ -14,7 +14,7 @@ define(['lib/def', 'handler'], function(Def, Handler) {
   });
 
   Jokes.def_method(function on_message(msg, cont) {
-    return this.match(msg.text) ? msg.reply(this.next(), cont) : cont();
+    return this.match(msg.text) ? msg.reply(this.next(), cont) : cont(msg);
   });
 
   return Jokes;
