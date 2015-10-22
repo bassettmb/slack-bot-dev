@@ -6,6 +6,7 @@ define(['lib/def', 'lib/util'], function(Def, Util) {
     this.def_prop('channel', client.getChannelGroupOrDMByID(raw_msg.channel));
     this.def_prop('user', client.getUserByID(raw_msg.user));
     this.def_prop('text', raw_msg.text);
+    this.def_prop('botName', client.self.name);
   });
 
   Message.def_method(function send_to(name, text, cont) {
