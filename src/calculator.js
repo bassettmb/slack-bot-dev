@@ -10,7 +10,9 @@ define(function() {
     var execute = function(message)
     {
         text = message.text.replace(/\s+/g, '');
-        formula = text.substr(9);
+        var bot = message.botName.replace(/\s+/g, '')
+        var prefix = "hey" + bot + "-calculate";
+        formula = text.substr(prefix.length);
 
         if(!formula) return "So what do you want to calculate today?";
 
