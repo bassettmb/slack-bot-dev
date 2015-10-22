@@ -1,8 +1,25 @@
 var should = require('should');
 
-var calculator = require('./../src/calculator');
+var requirejs = require('requirejs');
+requirejs.config({
+  'nodeRequire': require,
+  'baseUrl': '.',
+  'paths': {
+    'src': '././src'
+  }
+});
+
+//var calculator = require('./../src/calculator');
 
 describe('calculator',function(){
+
+    var calculator;
+    before(function(done) {
+        requirejs(['src/calculator'], function(cal) {
+            calculator = cal;
+            done(); // We can launch the tests!
+        });
+    });
 
     describe('.match()',function(){
 
