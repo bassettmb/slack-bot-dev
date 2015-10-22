@@ -14,14 +14,13 @@ define(function() {
   var Slack = require('slack-client');
   var Config = require('config');
   var Creds = require('credentials/testbot');
-  var swears_file = 'share/swears.txt';
 
   function init_pipeline(cont) {
     function with_source(err, source) {
       if (err)
         console.error('failed to initialize joke source');
 
-      return Swears.create_dict(swears_file, function (err, dict) {
+      return Swears.create_dict(Config.Swears.filepath, function (err, dict) {
         if (err)
           console.error('failed to initialize swears dictionary');
 
