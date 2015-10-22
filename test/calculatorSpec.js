@@ -14,29 +14,35 @@ describe('calculator',function(){
 
     describe('.match()',function(){
 
-        it('should guard against message missing text field',function(){
-            missingTextMessage={notext:""};
+        it('should guard against message missing text and botName fields',function(){
+            missingTextMessage={notext:"", botName:"b"};
+            missingBotMessage={text:"a", nobotName:""};
             calculator.match(missingTextMessage).should.be.false();
+            calculator.match(missingBotMessage).should.be.false();
         });
 
-        it('should only match message whose text starts with calculate', function(){
-            incorrectMessage={text:"calculator"};
-            correctMessage={text:"calculate"};
+        it('should only match message whose text starts with hey botname-calculate', function(){
+            incorrectMessage={text:"hey b-calculator", botName:"b"};
+            incorrectMessage2={text:"hey b2-calculate", botName:"b"};
+            incorrectMessage3={text:"hi b-calculate", botName:"b"};
+            correctMessage={text:"hey b-calculate", botName:"b"};
             
             calculator.match(incorrectMessage).should.be.false();
+            calculator.match(incorrectMessage2).should.be.false();
+            calculator.match(incorrectMessage3).should.be.false();
             calculator.match(correctMessage).should.be.true();
         });
 
         it('should match those texts regardless of upper / lower case', function(){
-            message1={text:"Calculate"};
-            message2={text:"calcuLATE"};
+            message1={text:"Hey b-Calculate", botName:"b"};
+            message2={text:"hEY B-calcuLATE", botName:"b"};
 
             calculator.match(message1).should.be.true();
             calculator.match(message2).should.be.true();
         });
 
         it('should match those texts ignoring spaces', function(){
-            message1={text:"     Calculate"};
+            message1={text:"Hey  b   -     Calculate", botName:"b"};
 
             calculator.match(message1).should.be.true();
         });

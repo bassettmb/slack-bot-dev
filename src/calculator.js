@@ -1,9 +1,10 @@
 define(function() {
     var match = function(message)
     {
-        if(!message.text) return false;
+        if(!message.text || !message.botName) return false;
         text = message.text.replace(/\s+/g, '').toLowerCase();
-        return (text.indexOf("calculate") === 0 );
+        var bot = message.botName.replace(/\s+/g, '').toLowerCase();
+        return (text.indexOf("hey" + bot + "-calculate") === 0 );
     }
 
     var execute = function(message)
