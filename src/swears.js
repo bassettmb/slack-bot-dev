@@ -20,7 +20,7 @@ define(['lib/def', 'lib/util', 'handler', 'fs'], function(Def, Util, Handler, FS
             if (this.dict[word]) {
                 matched = true;
                 var censor = word.replace(/./g, '*');
-                censoredText = censoredText.replace(new RegExp(word, 'i'), censor);
+                censoredText = censoredText.replace(new RegExp('\b' + word + '\b', 'i'), censor);
             }
         }
 
