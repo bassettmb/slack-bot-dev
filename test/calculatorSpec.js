@@ -57,7 +57,7 @@ describe('calculator',function(){
 
             for(var i = 0 ;i<texts.length;++i)
             {
-                msg = {text:"calculate "+texts[i]};
+                msg = {text:"hey b-calculate "+texts[i], botName:"b"};
                 calculator.execute(msg).should.be.equal(answer[i]);
             }
             
@@ -69,7 +69,7 @@ describe('calculator',function(){
 
             for(var i = 0 ;i<texts.length;++i)
             {
-                msg = {text:"calculate "+texts[i]};
+                msg = {text:"hey b-calculate "+texts[i], botName:"b"};
                 calculator.execute(msg).should.be.equal(answer[i]);
             }       
         });
@@ -80,7 +80,7 @@ describe('calculator',function(){
 
             for(var i = 0 ;i<texts.length;++i)
             {
-                msg = {text:"calculate "+texts[i]};
+                msg = {text:"hey b-calculate "+texts[i], botName:"b"};
                 calculator.execute(msg).should.be.equal(answer[i]);
             }       
         });
@@ -91,7 +91,7 @@ describe('calculator',function(){
 
             for(var i = 0 ;i<texts.length;++i)
             {
-                msg = {text:"calculate "+texts[i]};
+                msg = {text:"hey b-calculate "+texts[i], botName:"b"};
                 calculator.execute(msg).should.be.equal(answer[i]);
             }   
         });
@@ -101,7 +101,7 @@ describe('calculator',function(){
 
             for(var i = 0 ;i<texts.length;++i)
             {
-                msg = {text:"calculate "+texts[i]};
+                msg = {text:"hey b-calculate "+texts[i], botName:"b"};
                 if (i === 0) {
                     calculator.execute(msg).should.be.equal("Oops... there are extra bracket / parentheses!");
                 } else {
