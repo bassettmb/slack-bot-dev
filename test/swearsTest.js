@@ -1,13 +1,21 @@
-var expect = require('chai').expect;
-var fs = require('fs');
+var requirejs = require('../load.js');
 
 describe('swears', function () {
 
     var Swears = require('../src/swears');
 
-    before(function () {
+    before(function (done) {
         fs.mkdirSync('temp');
         fs.writeFileSync('temp/test.txt', 'Bad\nwords\nHERE');
+
+        // load the modules
+        var expect, fs, Swears;
+        requirejs(['chai', 'fs', 'src/swears'], function (chai, FS, swears) {
+            expect = chai.expect;
+            fs = FS;
+            Swears = swears;
+            done(); // We can launch tests now
+        });
     });
 
     after(function () {
@@ -15,7 +23,7 @@ describe('swears', function () {
         fs.rmdirSync('temp');
     });
 
-    describe('#Constructor', function () {
+    describe('.Constructor()', function () {
 
         it('should accept a dictionary object as a param and make it a property', function () {
             var obj = {'one': 1, '2': 'two'};
@@ -45,7 +53,7 @@ describe('swears', function () {
 
     });
 
-    describe('#create_dict', function () {
+    describe('.create_dict()', function () {
 
         var file = 'temp/test.txt';
 
@@ -70,7 +78,7 @@ describe('swears', function () {
 
     });
     
-    describe('#on_message', function () {
+    describe('.on_message()', function () {
 
         var dict = {
             'bad': true,
