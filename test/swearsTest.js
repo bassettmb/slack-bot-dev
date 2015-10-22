@@ -2,18 +2,19 @@ var requirejs = require('../load.js');
 
 describe('swears', function () {
 
-    var Swears = require('../src/swears');
+    var expect, fs, Swears;
 
     before(function (done) {
-        fs.mkdirSync('temp');
-        fs.writeFileSync('temp/test.txt', 'Bad\nwords\nHERE');
-
         // load the modules
-        var expect, fs, Swears;
-        requirejs(['chai', 'fs', 'src/swears'], function (chai, FS, swears) {
+        requirejs(['chai', 'fs', 'swears'], function (chai, FS, swears) {
             expect = chai.expect;
             fs = FS;
             Swears = swears;
+
+            // Init test file
+            fs.mkdirSync('temp');
+            fs.writeFileSync('temp/test.txt', 'Bad\nwords\nHERE');
+
             done(); // We can launch tests now
         });
     });
@@ -42,13 +43,15 @@ describe('swears', function () {
 
         it('should throw a type error if a non-object is passed', function () {
             var create = function (param) {
-                var swear = new Swears(param);
+                return function () {
+                    var swear = new Swears(param);
+                };
             };
-            expect(create(8)).to.throw('Swear dictionary must be an object');
-            expect(create(undefined)).to.throw('Swear dictionary must be an object');
-            expect(create('lol')).to.throw('Swear dictionary must be an object');
-            expect(create(true)).to.throw('Swear dictionary must be an object');
-            expect(create([8,7])).to.throw('Swear dictionary must be an object');
+            expect(create(8)).to.throw(TypeError, 'Swear dictionary must be an object');
+            expect(create(undefined)).to.throw(TypeError, 'Swear dictionary must be an object');
+            expect(create('lol')).to.throw(TypeError, 'Swear dictionary must be an object');
+            expect(create(true)).to.throw(TypeError, 'Swear dictionary must be an object');
+            expect(create([8,7])).to.not.throw(TypeError, 'Swear dictionary must be an object');
         });
 
     });
@@ -86,12 +89,11 @@ describe('swears', function () {
             'here': true
         };
 
-        var swears = new Swears(dict);
-
         var REPLY_PREFIX = "That is not appropriate language for a workplace! One should say '";
         var REPLY_POSTFIX = "' instead!";
 
         it('should simply pass the message to the continuation if it doesn\'t match the dictionary', function () {
+            var swears = new Swears(dict);
             var msg = {
                 text: 'There is nothing to match',
                 reply: function (txt, cont) {
@@ -107,6 +109,7 @@ describe('swears', function () {
         });
 
         it('should call the message reply function with censored message if a match is made', function () {
+            var swears = new Swears(dict);
             var msg = {
                 text: 'There is bad words here to match',
                 reply: function (txt, cont) {
@@ -119,6 +122,7 @@ describe('swears', function () {
         });
 
         it('should censor messages regardless of case', function () {
+            var swears = new Swears(dict);
             var msg = {
                 text: 'There is BAD wOrDS here to match',
                 reply: function (txt, cont) {
@@ -131,6 +135,7 @@ describe('swears', function () {
         });
 
         it('should should not censor partial matches', function () {
+            var swears = new Swears(dict);
             var msg = {
                 text: 'There is badguy words here to match',
                 reply: function (txt, cont) {
@@ -143,6 +148,7 @@ describe('swears', function () {
         });
 
         it('should censor properly when there are some full and some partial matches', function () {
+            var swears = new Swears(dict);
             var msg = {
                 text: 'There is bad badguy BAD to match',
                 reply: function (txt, cont) {
@@ -155,6 +161,7 @@ describe('swears', function () {
         });
 
         it('should censor properly even with irregular whitespace', function () {
+            var swears = new Swears(dict);
             var msg = {
                 text: 'There is    bad\n\rwords\vhere to match',
                 reply: function (txt, cont) {
