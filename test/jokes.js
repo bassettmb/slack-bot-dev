@@ -30,6 +30,7 @@ describe('Jokes',function(){
     msg.channel = 'channel';
     msg.user = 'user';
     msg.text = 'message';
+    msg.botName = 'botname';
     msg.reply = sinon.spy(function(msg, cont) { cont() });
     msg.respond = sinon.spy();
     msg.send_to = sinon.spy();
@@ -38,11 +39,14 @@ describe('Jokes',function(){
   });
 
   describe('#match', function() {
-    it('should match "tell a joke"', function() {
-      inst.match('tell a joke').should.be.true();
+    it('should match messages starting with "Hey botname-Tell me a joke" regardless of case', function() {
+      inst.match('hey botname-tell me a joke why not', 'botname').should.be.true();
+      inst.match('Hey BOTNAME-Tell me a jOKe', 'botname').should.be.true();
     });
-    it('should match "Tell a joke"', function() {
-      inst.match('Tell a joke').should.be.true();
+    it('should not match anything else at the start of a message', function() {
+      inst.match('Tell me a joke', 'botname').should.be.false();
+      inst.match('hey botname-', 'botname').should.be.false();
+      inst.match('Blocked Hey Botname-Tell me a joke', 'botname').should.be.false();
     });
   });
 
@@ -54,7 +58,7 @@ describe('Jokes',function(){
 
   describe('#on_message', function() {
     it('should tell a joke when asked', function(done) {
-      msg.text = 'tell a joke';
+      msg.text = 'Hey botname-tell me a joke';
       inst.on_message(msg, function(obj) {
         should(obj).be.undefined();
         msg.reply.calledOnce.should.be.true();
