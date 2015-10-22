@@ -53,8 +53,9 @@ define(function() {
     });
 
     conn.on('error', function(err) {
+      var d = new Date();
       console.error(JSON.stringify({
-        'timestamp': Date.now().toISOString(),
+        'timestamp': d.toISOString(),
         'error': {
           'code': err.code,
           'message': err.msg,
