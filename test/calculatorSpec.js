@@ -16,29 +16,29 @@ describe('calculator',function(){
 
         it('should guard against message missing text field',function(){
             missingTextMessage={notext:""};
-            calculator.match(missingTextMessage).should.be.false;
+            calculator.match(missingTextMessage).should.be.false();
         });
 
         it('should only match message whose text starts with calculate', function(){
             incorrectMessage={text:"calculator"};
             correctMessage={text:"calculate"};
             
-            calculator.match(incorrectMessage).should.be.false;
-            calculator.match(correctMessage).should.be.true;
+            calculator.match(incorrectMessage).should.be.false();
+            calculator.match(correctMessage).should.be.true();
         });
 
         it('should match those texts regardless of upper / lower case', function(){
             message1={text:"Calculate"};
             message2={text:"calcuLATE"};
 
-            calculator.match(message1).should.be.true;
-            calculator.match(message2).should.be.true;
+            calculator.match(message1).should.be.true();
+            calculator.match(message2).should.be.true();
         });
 
         it('should match those texts ignoring spaces', function(){
             message1={text:"     Calculate"};
 
-            calculator.match(message1).should.be.true;
+            calculator.match(message1).should.be.true();
         });
         
     });
@@ -96,7 +96,11 @@ describe('calculator',function(){
             for(var i = 0 ;i<texts.length;++i)
             {
                 msg = {text:"calculate "+texts[i]};
-                calculator.execute(msg).should.be.undefined;
+                if (i === 0) {
+                    calculator.execute(msg).should.be.equal("Oops... there are extra bracket / parentheses!");
+                } else {
+                    calculator.execute(msg).should.match(/Failed to find matchting bracket/);
+                }
             }   
         });
 
