@@ -11,8 +11,9 @@ define(function() {
         text = message.text.replace(/\s+/g, '');
         formula = text.substr(9);
 
-        response = parse(formula);
+        if(!formula) return "So what do you want to calculate today?";
 
+        response = parse(formula);
         if(response.ending === formula.length && response.result) return cutPrecision(response.result);
         return response.error || "Oops... there are extra bracket / parentheses!";
     }
