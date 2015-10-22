@@ -47,7 +47,9 @@ define(function() {
     });
 
     conn.on('message', function(message) {
-      pipeline.on_message(new Message(conn, message), Util.nop);
+      if (message.user && message.channel && message.text) {
+        pipeline.on_message(new Message(conn, message), Util.nop);
+      }
     });
 
     conn.on('error', function(err) {
