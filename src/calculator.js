@@ -176,14 +176,15 @@ define(function() {
         return numbers[0];
     }
 
-    Number.prototype.countDecimals = function () {
-        if(Math.floor(this.valueOf()) === this.valueOf()) return 0;
-        return this.toString().split(".")[1].length || 0; 
+    function countDecimals (number)
+    {
+        if(Math.floor(number) === number) return 0;
+        return number.toString().split(".")[1].length || 0; 
     }
 
     function cutPrecision(num)
     {
-        if(num.countDecimals() > 6) return parseFloat(num.toFixed(6));
+        if(countDecimals(num) > 6) return parseFloat(num.toFixed(6));
         return num;
     }
 
