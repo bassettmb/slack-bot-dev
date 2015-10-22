@@ -7,7 +7,7 @@ define(['lib/def', 'handler'], function(Def, Handler) {
 
   HandlerAdaptor.def_method(function on_message(msg, cont) {
     if (this.handler.match(msg))
-      return msg.respond(this.handler.execute(msg), cont);
+      return msg.respond(this.handler.execute(msg).toString(), cont);
     return cont(msg);
   });
 
